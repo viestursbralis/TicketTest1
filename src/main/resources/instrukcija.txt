@@ -1,0 +1,25 @@
+Instrukcija.
+
+1) Šeit var iegūt VAT vērtību (tiek izmantots kā iekšējais serviss no BussController klasses):
+curl -X GET -i 'http://localhost:8080/TicketTest1-1.0-SNAPSHOT/api/vat'
+atgriež: {"vat":0.21}
+
+2) Šeit var iegūt datus par maršrutiem un cenām (tiek izmantots kā iekšējais serviss):
+curl -X GET -i 'http://localhost:8080/TicketTest1-1.0-SNAPSHOT/api/ticketprice'
+atgriež: {"Riga":30.0,"Vilnius":10.0,"Tallinn":20.0}
+
+3) Šeit var iegūt kopīgos datus par biļešu cenām (tāda formātā, kā uzdevumā bija minēts):
+curl -X POST -H 'Content-Type: application/json' -i 'http://localhost:8080/TicketTest1-1.0-SNAPSHOT/api/buss/calculate' --data '{"destination":"Vilnius","passengers":[{"type":"adult",
+ "countOfBags" : 2},{"type":"child", "countOfBags":1}]}'
+atgriež:
+{
+  "price": 29.04,
+  "Ticket price": [{
+    "2.0 bags (2.0x10.0 EUR * 30% + 21.0%) = ": 7.26,
+    "adult (10.0 EUR +21.0%) = ": 12.1
+  }, {
+    "child (10.0 EUR *50% +21.0%) = ": 6.05,
+    "1.0 bags (1.0x10.0 EUR * 30% + 21.0%) = ": 3.63
+  }],
+  "dest": "Vilnius"
+}
